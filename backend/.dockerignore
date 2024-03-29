@@ -1,0 +1,19 @@
+# Arquivos e diretórios a serem ignorados pelo Docker durante a construção da imagem
+
+# Ignorar arquivos de backup
+*.bak
+
+# Ignorar arquivos de log
+*.log
+
+# Ignorar diretórios node_modules em qualquer nível
+node_modules/
+
+# Ignorar arquivos de configuração locais
+.env
+
+# Ignorar arquivos de cache
+.cache/
+
+# Ignorar arquivos de teste
+__tests__/
