@@ -2,18 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TaskResource;
+use App\Repositories\Eloquent\TaskRepository;
 use Illuminate\Http\Request;
+use App\Models\Task;
 
 class TaskController extends Controller
 {
-    public function __constructor()
+    public function __construct(private TaskRepository $taskRepository)
     {
-
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return 'Hello world';
+        $tasks = $this->taskRepository->getAll(
+            totalPerPage: $request->total_per_page ?? 15,
+            page: $request->page ?? 1,
+            filter: $request->get('filter', ''),
+        );
+
+        return TaskResource::collection($tasks);
     }
 
     public function store(Request $request)
