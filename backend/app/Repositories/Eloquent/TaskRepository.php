@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Eloquent;
 
+use App\DTO\Tasks\CreateTaskDTO;
+use App\DTO\Tasks\EditTaskDTO;
 use App\Models\Task;
 use App\Repositories\Interfaces\TaskRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
@@ -27,26 +29,31 @@ class TaskRepository implements TaskRepositoryInterface
             ->paginate($totalPerPage, ['*'], 'page', $page);
     }
 
-    public function findById(string $id): ?object
+    public function findById(string $id): ?Task
     {
         return $this->model->find($id);
     }
 
-    public function create(array $data): object
+    public function create(CreateTaskDTO $dto): Task
     {
-        return $this->model->create($data);
+        return $this->model->create((array) $dto);
     }
 
-    public function update(string $id, array $data): ?object
+    public function update(EditTaskDTO $dto): ?bool
     {
-        $record = $this->model->findOrFail($id);
-        $record->update($data);
-        return $record;
+        if (!$task = $this->findById($dto->id)) {
+            return false;
+        }
+        $data = (array) $dto;
+
+        return $task->update($data);
     }
 
     public function delete(string $id): bool
     {
-        $record = $this->model->findOrFail($id);
-        return $record->delete();
+        if (!$task = $this->findById($id)) {
+            return false;
+        }
+        return $task->delete();
     }
 }

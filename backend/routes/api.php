@@ -3,6 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
 
-Route::get('/', fn () => response()->json(['message'=>'ok']));
+Route::get('/', fn () => response()->json(['message' => 'ok']));
 
-Route::resource('task', TaskController::class);
+Route::resource('tasks', TaskController::class);
