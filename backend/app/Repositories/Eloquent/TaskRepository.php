@@ -44,9 +44,16 @@ class TaskRepository implements TaskRepositoryInterface
         if (!$task = $this->findById($dto->id)) {
             return false;
         }
-        $data = (array) $dto;
 
-        return $task->update($data);
+        $currentData = $task->toArray();
+        $data = (array) $dto;
+        $dataToUpdate = array_filter($data, function ($value) {
+            return $value !== null;
+        });
+
+        $updatedData = array_merge($currentData, $dataToUpdate);
+
+        return $task->update($updatedData);
     }
 
     public function delete(string $id): bool
