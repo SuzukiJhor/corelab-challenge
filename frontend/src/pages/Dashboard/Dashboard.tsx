@@ -1,6 +1,10 @@
 import { styled } from "styled-components";
+import { CreateTask } from "../../components/CreateTask";
 
 const DashboardContainer = styled.div`
+  display: flex;
+
+  justify-content: center;
   background: #f0f2f5;
   height: 100vh;
 `;
@@ -8,7 +12,7 @@ const DashboardContainer = styled.div`
 const Dashboard = () => {
   return (
     <DashboardContainer>
-      <h1>Dashboard</h1>
+      <CreateTask />
     </DashboardContainer>
   );
 };
