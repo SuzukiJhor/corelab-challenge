@@ -5,8 +5,9 @@ const TaskModal = styled.div`
   display: flex;
   flex-direction: column;
   width: 390px;
-  height: 105px;
+  height: 150px;
   margin-top: 25px;
+  padding-bottom: 10px;
   border-radius: 25px;
   background: #ffffff;
   border: 1px solid #d9d9d9;
@@ -53,8 +54,8 @@ const Form = styled.form`
 `;
 
 const BodyInput = styled.input`
-  width: 100%;
-  height: 35px;
+  width: 80%;
+  height: 45px;
   font:
     14.2px/1.5 "Inter",
     sans-serif;
