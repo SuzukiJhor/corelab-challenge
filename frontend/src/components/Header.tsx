@@ -10,6 +10,7 @@ const TagHeader = styled.header`
   padding: 16px 25px;
   height: 57px;
   gap: 5px;
+  background: #ffffff;
 `;
 
 const Logo = styled.a`

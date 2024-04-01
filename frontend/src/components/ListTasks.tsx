@@ -1,12 +1,17 @@
 import { styled } from "styled-components";
 import { IconStar } from "./icons/IconStar";
+import { IconEdit } from "./icons/IconEdit";
+import { IconPaint } from "./icons/IconPaint";
+import { IconClose } from "./icons/IconClose";
 
 const TaskListContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 390px;
-  height: 100vh;
-  margin-top: 55px;
+  height: 435px;
+  margin-top: 45px;
+
+  background-color: #f0f2f5;
 `;
 
 const ItemTask = styled.li`
@@ -66,6 +71,20 @@ const BodyItem = styled.div`
   padding: 20px 20px 0 20px;
 `;
 
+const FooterItem = styled.div`
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 25px 5px 25px;
+`;
+
+const ActionsDiv = styled.div`
+  display: flex;
+  margin-left: 5px;
+  gap: 10px;
+`;
+
 const ListItem = () => {
   return (
     <ItemTask>
@@ -73,30 +92,45 @@ const ListItem = () => {
         <TitleItem>Teste Algum titulo</TitleItem>
         <IconStar />
       </TitleWrapper>
+
       <BodyItem>
         Clique ou arraste o arquivo para esta área para fazer upload Clique ou
         arraste o arquivo para esta área para fazer upload Clique ou arraste o
         upload
       </BodyItem>
+
+      <FooterItem>
+        <ActionsDiv>
+          <IconEdit />
+          <IconPaint />
+        </ActionsDiv>
+        <div>
+          <IconClose />
+        </div>
+      </FooterItem>
     </ItemTask>
   );
 };
 
 export const ListTasks = () => {
   return (
-    <TaskListContainer>
-      <div>
-        <CategorySpan>Favoritas</CategorySpan>
-        <ul>
-          <ListItem />
-        </ul>
-      </div>
-      <div>
-        <CategorySpan>Outras</CategorySpan>
-        <ul>
-          <ListItem />
-        </ul>
-      </div>
-    </TaskListContainer>
+    <>
+      <TaskListContainer>
+        <div>
+          <CategorySpan>Favoritas</CategorySpan>
+          <ul>
+            <ListItem />
+          </ul>
+        </div>
+      </TaskListContainer>
+      <TaskListContainer>
+        <div>
+          <CategorySpan>Outras</CategorySpan>
+          <ul>
+            <ListItem />
+          </ul>
+        </div>
+      </TaskListContainer>
+    </>
   );
 };

@@ -5,7 +5,7 @@ const TaskModal = styled.div`
   display: flex;
   flex-direction: column;
   width: 390px;
-  height: 150px;
+  height: 105px;
   margin-top: 25px;
   padding-bottom: 10px;
   border-radius: 25px;
