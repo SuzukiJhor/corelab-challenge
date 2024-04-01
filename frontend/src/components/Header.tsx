@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import iconNote from "../assets/iconNote.png";
 import { IconClose } from "./icons/IconClose";
-import { Input } from "./Input";
+import { InputSearch } from "./InputSearch";
 
 const TagHeader = styled.header`
   display: flex;
@@ -38,7 +38,7 @@ export const Header = () => {
         CoreNotes
       </Logo>
       <div>
-        <Input placeholder="Pesquisar notas" />
+        <InputSearch placeholder="Pesquisar notas" />
       </div>
       <div>
         <IconClose />
