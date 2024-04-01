@@ -61,6 +61,7 @@ class TaskRepository implements TaskRepositoryInterface
         if (!$task = $this->findById($id)) {
             return false;
         }
+        
         return $task->delete();
     }
 }
