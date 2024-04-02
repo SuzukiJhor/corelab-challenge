@@ -18,15 +18,16 @@ class TaskRepository implements TaskRepositoryInterface
         $this->model = $model;
     }
 
-    public function getAll(int $totalPerPage = null, int $page = null, string $filter = ''): array|LengthAwarePaginator
+    public function getAll(string $filter = ''): array|LengthAwarePaginator
     {
-        return $this->model
+        $query = $this->model
             ->where(function ($query) use ($filter) {
                 if ($filter) {
                     $query->orWhere('title', 'LIKE', "%{$filter}%");
                 }
-            })
-            ->paginate($totalPerPage, ['*'], 'page', $page);
+            });
+
+        return $query->get()->toArray();
     }
 
     public function findById(string $id): ?Task
@@ -61,7 +62,7 @@ class TaskRepository implements TaskRepositoryInterface
         if (!$task = $this->findById($id)) {
             return false;
         }
-        
+
         return $task->delete();
     }
 }

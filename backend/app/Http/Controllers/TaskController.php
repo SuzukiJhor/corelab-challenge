@@ -14,23 +14,23 @@ use App\Models\Task;
 
 class TaskController extends Controller
 {
-    public function __construct(private TaskRepository $taskRepository){}
+    public function __construct(private TaskRepository $taskRepository)
+    {
+    }
 
     public function index(Request $request)
     {
         $tasks = $this->taskRepository->getAll(
-            totalPerPage: $request->total_per_page ?? 15,
-            page: $request->page ?? 1,
             filter: $request->get('filter', ''),
         );
 
-        return TaskResource::collection($tasks);
+        return $tasks;
     }
 
     public function store(StoreTaskRequest $request)
     {
         $task = $this->taskRepository->create(new CreateTaskDTO(...$request->validated()));
-        
+
         return new TaskResource($task);
     }
 
@@ -47,7 +47,7 @@ class TaskController extends Controller
         if (!$response) {
             return response()->json(['message' => 'task not found'], Response::HTTP_NOT_FOUND);
         }
-        
+
         return response()->json(['message' => 'task updated with success']);
     }
 
@@ -56,7 +56,7 @@ class TaskController extends Controller
         if (!$this->taskRepository->delete($id)) {
             return response()->json(['message' => 'task not found'], Response::HTTP_NOT_FOUND);
         }
-        
+
         return response()->json(['message' => 'task deleted with success'], Response::HTTP_NO_CONTENT);
     }
 }

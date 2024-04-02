@@ -8,7 +8,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 interface TaskRepositoryInterface
 {
-    public function getAll(int $totalPerPage = null, int $page = null, string $filter = ''): array|LengthAwarePaginator;
+    public function getAll(string $filter = ''): array|LengthAwarePaginator;
     public function findById(string $id): object|null;
     public function create(CreateTaskDTO $data): object;
     public function update(EditTaskDTO $data): bool|null;
