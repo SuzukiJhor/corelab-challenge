@@ -3,6 +3,8 @@ import { IconStar } from "./icons/IconStar";
 import { IconEdit } from "./icons/IconEdit";
 import { IconPaint } from "./icons/IconPaint";
 import { IconClose } from "./icons/IconClose";
+import { useState, useEffect } from "react";
+import { useRequest } from "../hooks/useRequest";
 
 const TaskListContainer = styled.div`
   display: flex;
@@ -10,7 +12,6 @@ const TaskListContainer = styled.div`
   width: 390px;
   height: 435px;
   margin-top: 45px;
-
   background-color: #f0f2f5;
 `;
 
@@ -23,12 +24,11 @@ const ItemTask = styled.li`
   background-color: #ffffff;
   border: 1px solid #d9d9d9;
   border-radius: 25px;
-
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  margin-top: 5px;
+  margin-top: ${(props) => (props.first == "true" ? "5px" : "70px")};
 `;
 
 const CategorySpan = styled.span`
@@ -55,7 +55,6 @@ const TitleItem = styled.h5`
   display: flex;
   width: 100%;
   max-width: 300px;
-
   line-height: 17.19px;
   text-align: left;
   color: #333333;
@@ -85,20 +84,21 @@ const ActionsDiv = styled.div`
   gap: 10px;
 `;
 
-const ListItem = () => {
+interface ListItemProps {
+  title: string;
+  description: string;
+  key: string;
+  first: boolean;
+}
+
+const ListItem = ({ title, description, first }: ListItemProps) => {
   return (
-    <ItemTask>
+    <ItemTask first={first}>
       <TitleWrapper>
-        <TitleItem>Teste Algum titulo</TitleItem>
+        <TitleItem>{title}</TitleItem>
         <IconStar />
       </TitleWrapper>
-
-      <BodyItem>
-        Clique ou arraste o arquivo para esta área para fazer upload Clique ou
-        arraste o arquivo para esta área para fazer upload Clique ou arraste o
-        upload
-      </BodyItem>
-
+      <BodyItem>{description}</BodyItem>
       <FooterItem>
         <ActionsDiv>
           <IconEdit />
@@ -112,25 +112,51 @@ const ListItem = () => {
   );
 };
 
+interface Task {
+  title: string;
+  body: string;
+}
+
 export const ListTasks = () => {
+  const { data } = useRequest<Task[]>("http://localhost:8000/api/tasks?");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (data) {
+      setLoading(false);
+    }
+  }, [data]);
+
   return (
     <>
-      <TaskListContainer>
-        <div>
-          <CategorySpan>Favoritas</CategorySpan>
-          <ul>
-            <ListItem />
-          </ul>
-        </div>
-      </TaskListContainer>
-      <TaskListContainer>
+      {loading ? ( // Verifica se loading é verdadeiro
+        <div>Loading...</div> // Exibe um indicador de carregamento
+      ) : (
+        <TaskListContainer>
+          <div>
+            <CategorySpan>Favoritas</CategorySpan>
+            <ul>
+              {data &&
+                data.map((task, index) => (
+                  <ListItem
+                    key={index}
+                    title={task.title}
+                    description={task.description}
+                    first={(index === 0).toString()}
+                  />
+                ))}
+            </ul>
+          </div>
+        </TaskListContainer>
+      )}
+      {/* <TaskListContainer>
         <div>
           <CategorySpan>Outras</CategorySpan>
           <ul>
-            <ListItem />
+            <ListItem title="Titulo 2" body="Corpo do item 2" />
           </ul>
         </div>
-      </TaskListContainer>
+      </TaskListContainer> */}
     </>
   );
 };
