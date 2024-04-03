@@ -3,11 +3,21 @@ import { useState, useEffect } from "react";
 
 export function useRequest<T = unknown>(url: string) {
   const [data, setData] = useState<T | null>();
-  useEffect(() => {
-    axios.get(url).then((response) => {
-      setData(response.data);
-    });
-  }, []);
+  const [error, setError] = useState<string | null>(null);
 
-  return { data };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(url);
+        setData(response.data);
+        setError(null);
+      } catch (error) {
+        setError("Erro na requisição GET: " + error.message);
+      }
+    };
+
+    fetchData();
+  }, [url]);
+
+  return { data, error };
 }
