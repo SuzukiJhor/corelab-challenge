@@ -13,6 +13,10 @@ const TaskListContainer = styled.div`
   height: 435px;
   margin-top: 45px;
   background-color: #f0f2f5;
+
+  @media (max-width: 414px) {
+    width: 280px;
+  }
 `;
 
 const ItemTask = styled.li`
