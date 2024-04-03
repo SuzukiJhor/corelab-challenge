@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { usePostRequest } from "../hooks/useRequestPost";
 
 const TaskModal = styled.div`
   display: flex;
@@ -115,7 +116,10 @@ const tasksSchema = z.object({
 type TasksSchema = z.infer<typeof tasksSchema>;
 
 export const CreateTask = () => {
-  const { register, handleSubmit, watch } = useForm<TasksSchema>({
+  const { data, sendPostRequest } = usePostRequest(
+    "http://localhost:8000/api/tasks?",
+  );
+  const { register, handleSubmit, reset } = useForm<TasksSchema>({
     resolver: zodResolver(tasksSchema),
   });
 
@@ -126,22 +130,19 @@ export const CreateTask = () => {
   };
 
   const handleFormBlur = () => {
-    setTimeout(() => {
-      setIsFormFocused(false);
-    }, 500);
+    setIsFormFocused(false);
   };
 
   const handleCreateTask = (data: TasksSchema) => {
     console.log(data);
+    sendPostRequest(data);
+    setIsFormFocused(false);
+    reset();
   };
 
   return (
     <TaskModal>
-      <Form
-        onSubmit={handleSubmit(handleCreateTask)}
-        onFocus={handleFormFocus}
-        onBlur={handleFormBlur}
-      >
+      <Form onSubmit={handleSubmit(handleCreateTask)} onFocus={handleFormFocus}>
         <TitleWrapper>
           <TitleInput placeholder="Título" {...register("title")} />
           <IconStar />
