@@ -23,9 +23,9 @@ class StoreTaskRequest extends FormRequest
     {
         return [
             'title' => ['required', 'min:2', 'max:255', 'unique:tasks'],
-            'description' => ['nullable', 'string', 'min:2'],
-            'is_favorite' => ['in:true,false'],
-            'color' => ['string', 'max:255'],
+            'description' => ['string', 'min:2'],
+            'is_favorite' => ['nullable', 'in:true,false'],
+            'color' => ['nullable', 'string', 'max:255'],
         ];
     }
 }

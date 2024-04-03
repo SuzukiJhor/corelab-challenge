@@ -7,8 +7,8 @@ class CreateTaskDTO
     public function __construct(
         public string $title,
         public string $description,
-        public string $is_favorite,
-        public string $color,
+        public ?string $is_favorite = null,
+        public ?string $color = null
     ) {
         //
     }

@@ -37,7 +37,15 @@ class TaskRepository implements TaskRepositoryInterface
 
     public function create(CreateTaskDTO $dto): Task
     {
-        return $this->model->create((array) $dto);
+        $isFavorite = $dto->is_favorite ?? 'false';
+        $requestData = [
+            'title' => $dto->title,
+            'description' => $dto->description,
+            'is_favorite' => $isFavorite,
+            'color' => $dto->color,
+        ];
+
+        return $this->model->create((array) $requestData);
     }
 
     public function update(EditTaskDTO $dto): ?bool
