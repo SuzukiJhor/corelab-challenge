@@ -1,11 +1,12 @@
 import { styled } from "styled-components";
 
-const BodyItem = styled.span`
+const BodyItem = styled.textarea`
   display: flex;
   width: 100%;
   padding: 20px 20px 0 20px;
   border: none;
   outline: none;
+  resize: none;
 `;
 
 interface BodyListTaskProps {
@@ -13,5 +14,9 @@ interface BodyListTaskProps {
 }
 
 export const BodyListTask = ({ description }: BodyListTaskProps) => {
-  return <BodyItem>{description}</BodyItem>;
+  return (
+    <BodyItem defaultValue="" readOnly>
+      {description}
+    </BodyItem>
+  );
 };

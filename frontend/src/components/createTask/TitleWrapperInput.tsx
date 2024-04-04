@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { IconStar } from "../icons/IconStar";
+import { ItemFavorite } from "../listTasks/ItemFavorite";
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -39,16 +40,20 @@ const TitleInput = styled.input`
 interface TitleWrapperInputProps {
   placeholder: string;
   register: Dispatch<SetStateAction<any>>;
+
+  favorite?: number;
 }
 
 export const TitleWrapperInput = ({
   placeholder,
   register,
+  handleFavorite,
+  favorite,
 }: TitleWrapperInputProps) => {
   return (
     <TitleWrapper>
       <TitleInput placeholder={placeholder} {...register("title")} />
-      <IconStar />
+      <ItemFavorite favorite={favorite} handleFavorite={handleFavorite} />
     </TitleWrapper>
   );
 };

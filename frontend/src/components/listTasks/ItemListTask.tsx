@@ -22,6 +22,10 @@ const ItemTask = styled.li`
   justify-content: flex-start;
   align-items: center;
   margin-top: ${(props) => (props.first == "true" ? "5px" : "70px")};
+
+  @media (min-width: 768px) {
+    margin-top: 5px;
+  }
 `;
 
 export const ItemListTask = ({ title, description, first, taskId }) => {
@@ -47,11 +51,16 @@ export const ItemListTask = ({ title, description, first, taskId }) => {
   };
 
   const handleFavorite = async () => {
-    const currentTask = data.find((task) => task.id === taskId);
-    if (currentTask) {
+    const currentTaskIndex = data.findIndex((task) => task.id === taskId);
+    if (currentTaskIndex !== -1) {
       const updatedFavoriteStatus =
-        currentTask.is_favorite === "true" ? "false" : "true";
+        data[currentTaskIndex].is_favorite === "true" ? "false" : "true";
       updateTask(taskId, { is_favorite: updatedFavoriteStatus });
+
+      const removedItem = data.splice(currentTaskIndex, 1);
+      data.push(removedItem[0]);
+
+      setTaskData([...data]);
     }
   };
 
@@ -68,7 +77,7 @@ export const ItemListTask = ({ title, description, first, taskId }) => {
         title={title}
         handleFavorite={handleFavorite}
       />
-      <BodyListTask description={description}></BodyListTask>
+      <BodyListTask BodyListTaskdescription={description}></BodyListTask>
 
       <FooterItemTask handleDelete={handleDelete} />
     </ItemTask>

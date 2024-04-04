@@ -1,11 +1,14 @@
 import Header from "./components/header";
 import Dashboard from "./pages/Dashboard";
+import ListProvider from "./context/listProvider";
 
 function App() {
   return (
     <>
-      <Header />
-      <Dashboard />
+      <ListProvider>
+        <Header />
+        <Dashboard />
+      </ListProvider>
     </>
   );
 }

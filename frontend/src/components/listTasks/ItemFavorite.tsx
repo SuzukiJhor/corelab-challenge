@@ -17,11 +17,14 @@ export const ItemFavorite = ({ handleFavorite, favorite }) => {
 
   const IsFavorite = () => {
     const currentTask = data.find((task) => task.id === favorite);
-    return currentTask.is_favorite === "true" ? "true" : "false";
+    if (currentTask && currentTask.is_favorite) {
+      return currentTask.is_favorite === "true" ? "true" : "false";
+    }
+    return "false";
   };
 
   return (
-    <FavoriteButton onClick={handleFavorite}>
+    <FavoriteButton type="button" onClick={handleFavorite}>
       <IconStar fill="" stroke={IsFavorite() === "true" ? "yellow" : "none"} />
     </FavoriteButton>
   );

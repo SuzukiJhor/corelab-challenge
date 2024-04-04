@@ -12,9 +12,9 @@ export default function ListProvider({ children }) {
     }
   }, [data]);
 
-  if (!data || taskData.length === 0) {
-    return <div>Loading...</div>;
-  }
+  // if (!data || taskData.length === 0) {
+  //   data = [];
+  // }
 
   return (
     <ListTasksContext.Provider value={{ data: taskData, setTaskData }}>

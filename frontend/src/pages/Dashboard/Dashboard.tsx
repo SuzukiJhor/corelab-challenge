@@ -1,6 +1,5 @@
 import { styled } from "styled-components";
 
-import ListProvider from "../../context/listProvider";
 import CreateTask from "../../components/createTask";
 import ListTasks from "../../components/listTasks";
 
@@ -10,15 +9,15 @@ const DashboardContainer = styled.div`
   align-items: center;
   background: #f0f2f5;
   height: 100%;
+
+  width: 100%;
 `;
 
 const Dashboard = () => {
   return (
     <DashboardContainer>
-      <ListProvider>
-        <CreateTask />
-        <ListTasks />
-      </ListProvider>
+      <CreateTask />
+      <ListTasks />
     </DashboardContainer>
   );
 };

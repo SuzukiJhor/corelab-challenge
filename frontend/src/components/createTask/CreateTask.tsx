@@ -10,30 +10,42 @@ import { usePostRequest } from "../../hooks/useRequestPost";
 import { TitleWrapperInput } from "./TitleWrapperInput";
 
 const TaskModal = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: center;
+  @media (min-width: 414px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
 
-  width: 390px;
-  height: 110px;
-  margin-top: 25px;
-  padding-bottom: 10px;
+    width: 390px;
+    height: 110px;
+    margin-top: 25px;
+    padding-bottom: 10px;
 
-  background: #ffffff;
+    background: #ffffff;
 
-  box-shadow: 1px 1px 3px 0px #00000040;
-  border: 1px solid #d9d9d9;
-  border-radius: 25px;
+    box-shadow: 1px 1px 3px 0px #00000040;
+    border: 1px solid #d9d9d9;
+    border-radius: 25px;
+  }
 
   @media (max-width: 414px) {
     width: 280px;
+  }
+
+  @media (min-width: 768px) {
+    border: none;
+    width: 530px;
+    border-radius: 5px;
   }
 `;
 
 const Form = styled.form`
   height: 100%;
   width: 100%;
+
+  @media (min-width: 768px) {
+    border: none;
+  }
 `;
 
 const tasksSchema = z.object({
@@ -44,13 +56,14 @@ const tasksSchema = z.object({
 type TasksSchema = z.infer<typeof tasksSchema>;
 
 const CreateTask = () => {
-  const { register, handleSubmit, reset } = useForm<TasksSchema>({
+  const isFavorite = false;
+  const { register, handleSubmit, reset, form } = useForm<TasksSchema>({
     resolver: zodResolver(tasksSchema),
   });
 
-  const { setTaskData } = useListTasksContext();
+  const { data, setTaskData } = useListTasksContext();
 
-  const { data, sendPostRequest } = usePostRequest(
+  const { sendPostRequest } = usePostRequest(
     "http://localhost:8000/api/tasks?",
   );
 
@@ -67,7 +80,6 @@ const CreateTask = () => {
   const handleCreateTask = async (data: TasksSchema) => {
     if (data) data.is_favorite = "false";
 
-    console.log(data);
     try {
       await sendPostRequest(data);
       setTaskData((prevData) => [...prevData, data]);
@@ -78,10 +90,24 @@ const CreateTask = () => {
     }
   };
 
+  const taskId = 1;
+
+  const handleFavorite = () => {
+    console.log("favoritos");
+  };
+
   return (
     <TaskModal>
       <Form onSubmit={handleSubmit(handleCreateTask)} onFocus={handleFormFocus}>
-        <TitleWrapperInput placeholder="Título" register={register} />
+        <TitleWrapperInput
+          register={register}
+          handleFavorite={() => {
+            handleFavorite();
+          }}
+          favorite={taskId}
+          placeholder="Título"
+          register={register}
+        />
 
         <BodyInputTask
           placeholder="Criar nota..."
