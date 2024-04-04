@@ -22,7 +22,7 @@
 
     
 ## Navegue até o diretorio do projeto
-    cd corelab-Challenge/
+    cd corelab-Challenge
 
 ## Execute o projeto utilizando Docker Compose
     docker-compose up
