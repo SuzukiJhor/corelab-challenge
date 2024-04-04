@@ -1,7 +1,8 @@
 import { styled } from "styled-components";
-import { CreateTask } from "../../components/CreateTask";
-import { ListTasks } from "../../components/ListTasks";
+
 import ListProvider from "../../context/listProvider";
+import CreateTask from "../../components/createTask";
+import ListTasks from "../../components/listTasks";
 
 const DashboardContainer = styled.div`
   display: flex;

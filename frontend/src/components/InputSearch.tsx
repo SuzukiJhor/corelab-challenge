@@ -30,17 +30,17 @@ const InputContainer = styled.div`
 
 interface InputSearchProps extends InputHTMLAttributes<HTMLInputElement> {
   value: string;
-  handleChange: (value: string) => void;
+  handleChange?: (value: string) => void;
 }
 
 export const InputSearch = (props: InputSearchProps) => {
+  function handle(value) {
+    console.log(value);
+  }
   return (
     <>
       <InputContainer>
-        <TagInput
-          onChange={(event) => props.handleChange(event.target.value)}
-          {...props}
-        />
+        <TagInput onChange={(event) => handle(event.target.value)} {...props} />
         <IconSearch />
       </InputContainer>
     </>
