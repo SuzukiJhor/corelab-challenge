@@ -19,5 +19,9 @@ export function useRequest<T = unknown>(url: string) {
     fetchData();
   }, [url]);
 
-  return { data, error };
+  const refetch = () => {
+    fetchData();
+  };
+
+  return { data, refetch, error };
 }

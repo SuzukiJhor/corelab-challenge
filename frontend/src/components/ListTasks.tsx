@@ -122,7 +122,9 @@ interface Task {
 }
 
 export const ListTasks = () => {
-  const { data } = useRequest<Task[]>("http://localhost:8000/api/tasks?");
+  const { data, refetch } = useRequest<Task[]>(
+    "http://localhost:8000/api/tasks?",
+  );
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
