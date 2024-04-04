@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 import { CreateTask } from "../../components/CreateTask";
 import { ListTasks } from "../../components/ListTasks";
+import ListProvider from "../../context/listProvider";
 
 const DashboardContainer = styled.div`
   display: flex;
@@ -13,8 +14,10 @@ const DashboardContainer = styled.div`
 const Dashboard = () => {
   return (
     <DashboardContainer>
-      <CreateTask />
-      <ListTasks />
+      <ListProvider>
+        <CreateTask />
+        <ListTasks />
+      </ListProvider>
     </DashboardContainer>
   );
 };

@@ -5,7 +5,7 @@ import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePostRequest } from "../hooks/useRequestPost";
-
+import { useRequest } from "../hooks/useRequest";
 const TaskModal = styled.div`
   display: flex;
   flex-direction: column;
@@ -116,6 +116,7 @@ const tasksSchema = z.object({
 type TasksSchema = z.infer<typeof tasksSchema>;
 
 export const CreateTask = () => {
+  const { refetch } = useRequest<Task[]>("http://localhost:8000/api/tasks?");
   const { data, sendPostRequest } = usePostRequest(
     "http://localhost:8000/api/tasks?",
   );
@@ -136,6 +137,7 @@ export const CreateTask = () => {
   const handleCreateTask = (data: TasksSchema) => {
     console.log(data);
     sendPostRequest(data);
+    refetch();
     setIsFormFocused(false);
     reset();
   };

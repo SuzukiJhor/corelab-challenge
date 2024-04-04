@@ -4,7 +4,7 @@ import { IconEdit } from "./icons/IconEdit";
 import { IconPaint } from "./icons/IconPaint";
 import { IconClose } from "./icons/IconClose";
 import { useState, useEffect } from "react";
-import { useRequest } from "../hooks/useRequest";
+import useListTasksContext from "../hooks/useListTasksContext";
 
 const TaskListContainer = styled.div`
   display: flex;
@@ -116,15 +116,8 @@ const ListItem = ({ title, description, first }: ListItemProps) => {
   );
 };
 
-interface Task {
-  title: string;
-  body: string;
-}
-
 export const ListTasks = () => {
-  const { data, refetch } = useRequest<Task[]>(
-    "http://localhost:8000/api/tasks?",
-  );
+  const { data } = useListTasksContext();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -135,8 +128,8 @@ export const ListTasks = () => {
 
   return (
     <>
-      {loading ? ( // Verifica se loading é verdadeiro
-        <div>Loading...</div> // Exibe um indicador de carregamento
+      {loading ? (
+        <div>Loading...</div>
       ) : (
         <TaskListContainer>
           <div>
