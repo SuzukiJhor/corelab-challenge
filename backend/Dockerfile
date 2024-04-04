@@ -39,9 +39,9 @@ COPY docker/php/custom.ini /usr/local/etc/php/conf.d/custom.ini
 
 # USER $user
 
-# Install dependencies and generate key
-RUN composer install
-RUN php artisan key:generate
+# # Install dependencies and generate key
+# RUN composer install
+# RUN php artisan key:generate
 
 # Expose port and set CMD
 EXPOSE 8000
