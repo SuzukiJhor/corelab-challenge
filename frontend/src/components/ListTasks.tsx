@@ -1,10 +1,11 @@
+import React, { useState, useEffect } from "react";
 import { styled } from "styled-components";
 import { IconStar } from "./icons/IconStar";
 import { IconEdit } from "./icons/IconEdit";
 import { IconPaint } from "./icons/IconPaint";
 import { IconClose } from "./icons/IconClose";
-import { useState, useEffect } from "react";
 import useListTasksContext from "../hooks/useListTasksContext";
+import { useDeleteTask } from "../hooks/useDeleteTask";
 
 const TaskListContainer = styled.div`
   display: flex;
@@ -20,8 +21,8 @@ const TaskListContainer = styled.div`
 `;
 
 const ItemTask = styled.li`
-  width: 100%;
-  height: 435px;
+  max-width: 390px;
+  height: 425px;
   font:
     14.2px/1.5 "Inter",
     sans-serif;
@@ -55,10 +56,8 @@ const TitleWrapper = styled.div`
   border-bottom: 1px solid #d9d9d9;
 `;
 
-const TitleItem = styled.h5`
+const TitleItem = styled.span`
   display: flex;
-  width: 100%;
-  max-width: 300px;
   line-height: 17.19px;
   text-align: left;
   color: #333333;
@@ -66,12 +65,15 @@ const TitleItem = styled.h5`
   font-family: "Inter", sans-serif;
   font-size: 14.2px;
   font-weight: 700;
+  outline: none;
 `;
 
-const BodyItem = styled.div`
+const BodyItem = styled.span`
   display: flex;
   width: 100%;
   padding: 20px 20px 0 20px;
+  border: none;
+  outline: none;
 `;
 
 const FooterItem = styled.div`
@@ -88,14 +90,32 @@ const ActionsDiv = styled.div`
   gap: 10px;
 `;
 
-interface ListItemProps {
-  title: string;
-  description: string;
-  key: string;
-  first: boolean;
-}
+const DeleteButton = styled.button`
+  border: none;
+  background: none;
+`;
 
-const ListItem = ({ title, description, first }: ListItemProps) => {
+const ListItem = ({ title, description, first, onDelete }) => {
+  const { data, setTaskData } = useListTasksContext();
+
+  const { error, deleteTask } = useDeleteTask(
+    "http://localhost:8000/api/tasks",
+  );
+  const handleDelete = () => {
+    if (onDelete == undefined) {
+      console.log("tratar");
+      getOrderData();
+      return;
+    }
+    deleteTask(onDelete);
+    getOrderData();
+  };
+
+  const getOrderData = async () => {
+    const orderData = data.filter((item) => item.id != onDelete);
+    setTaskData(orderData);
+  };
+
   return (
     <ItemTask first={first}>
       <TitleWrapper>
@@ -108,9 +128,9 @@ const ListItem = ({ title, description, first }: ListItemProps) => {
           <IconEdit />
           <IconPaint />
         </ActionsDiv>
-        <div>
+        <DeleteButton onClick={handleDelete}>
           <IconClose />
-        </div>
+        </DeleteButton>
       </FooterItem>
     </ItemTask>
   );
@@ -135,27 +155,22 @@ export const ListTasks = () => {
           <div>
             <CategorySpan>Favoritas</CategorySpan>
             <ul>
-              {data &&
-                data.map((task, index) => (
+              {data
+                .slice()
+                .reverse()
+                .map((task, index) => (
                   <ListItem
                     key={index}
                     title={task.title}
                     description={task.description}
                     first={(index === 0).toString()}
+                    onDelete={task.id}
                   />
                 ))}
             </ul>
           </div>
         </TaskListContainer>
       )}
-      {/* <TaskListContainer>
-        <div>
-          <CategorySpan>Outras</CategorySpan>
-          <ul>
-            <ListItem title="Titulo 2" body="Corpo do item 2" />
-          </ul>
-        </div>
-      </TaskListContainer> */}
     </>
   );
 };

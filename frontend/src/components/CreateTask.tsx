@@ -6,6 +6,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePostRequest } from "../hooks/useRequestPost";
 import { useRequest } from "../hooks/useRequest";
+import useListTasksContext from "../hooks/useListTasksContext";
+
 const TaskModal = styled.div`
   display: flex;
   flex-direction: column;
@@ -116,7 +118,7 @@ const tasksSchema = z.object({
 type TasksSchema = z.infer<typeof tasksSchema>;
 
 export const CreateTask = () => {
-  const { refetch } = useRequest<Task[]>("http://localhost:8000/api/tasks?");
+  const { setTaskData } = useListTasksContext();
   const { data, sendPostRequest } = usePostRequest(
     "http://localhost:8000/api/tasks?",
   );
@@ -134,12 +136,15 @@ export const CreateTask = () => {
     setIsFormFocused(false);
   };
 
-  const handleCreateTask = (data: TasksSchema) => {
-    console.log(data);
-    sendPostRequest(data);
-    refetch();
-    setIsFormFocused(false);
-    reset();
+  const handleCreateTask = async (data: TasksSchema) => {
+    try {
+      await sendPostRequest(data);
+      setTaskData((prevData) => [...prevData, data]);
+      setIsFormFocused(false);
+      reset();
+    } catch (error) {
+      console.error("Erro ao criar tarefa:", error);
+    }
   };
 
   return (
@@ -154,6 +159,7 @@ export const CreateTask = () => {
           rows={4}
           wrap="soft"
           {...register("description")}
+          defaultValue=""
         />
         <div>
           <SaveButton type="submit" show={isFormFocused.toString()}>
