@@ -22,7 +22,9 @@
    
 ## Requisitos: Ter o Docker instalado
 
-## Como Executar      
+## Como Executar  
+
+### Clone o projeto
     git clone https://github.com/SuzukiJhor/corelab-challenge.git
 
 ### Navegue até o diretorio do projeto
