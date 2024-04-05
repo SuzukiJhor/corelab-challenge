@@ -34,8 +34,9 @@ RUN mkdir -p /home/$user/.composer && \
 WORKDIR /app/backend
 COPY . .
 
-# Copy custom configurations PHP
-COPY docker/php/custom.ini /usr/local/etc/php/conf.d/custom.ini
+RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini && \
+    sed -i -e "s/^ *memory_limit.*/memory_limit = 4G/g" /usr/local/etc/php/php.ini
+
 
 # USER $user
 
