@@ -6,7 +6,11 @@
  - O Ambiente montado utilizando Docker
 
 ### BackEnd
+ - Composer
  - Projeto desenvolvido com PHP usando Laravel
+ - Uso do Eloquent como ORM
+ - Validação rules
+ - Documentação API
 
 ### FronEnd
  - Projeto desenvolvido utilizando React.js
